@@ -8,22 +8,27 @@ import {
     UPDATE_LOG,
     SEARCH_LOGS,
     SET_CURRENT,
-    CLEAR_CURRENT
+    CLEAR_CURRENT,
+    CLEAR_SEARCH
   } from './types';
   
     
+
+ 
+
   // Get logs from server
   export const getLogs = () => async dispatch => {
     try {
       setLoading();
   
-      const res = await fetch('/logs');
-      const data = await res.json();
-  
+      const res = await axios.get('/logs');
+      //const data = await res.json();
+      
       dispatch({
         type: GET_LOGS,
-        payload: data
+        payload: res.data
       });
+
     } catch (err) {
       dispatch({
         type: LOGS_ERROR,
@@ -45,11 +50,11 @@ import {
       const res= await axios.post('/logs',log,config)
 
       
-      const data = await res.json();
+      //const data = await res.json();
   
       dispatch({
         type: ADD_LOG,
-        payload: data
+        payload: res.data
       });
     } catch (err) {
       dispatch({
@@ -64,10 +69,8 @@ import {
     try {
       setLoading();
       
-      await fetch(`/logs/${id}`, {
-        method: 'DELETE'
-      });
-  
+      await axios.delete(`/logs/${id}`)
+
       dispatch({
         type: DELETE_LOG,
         payload: id
@@ -85,19 +88,18 @@ import {
     try {
       setLoading();
   
-      const res = await fetch(`/logs/${log.id}`, {
-        method: 'PUT',
-        body: JSON.stringify(log),
-        headers: {
-          'Content-Type': 'application/json'
+      const config={
+        headers:{
+          'Content-Type':'application/json'
         }
-      });
-  
-      const data = await res.json();
+      }
+
+      const res= await axios.put(`/logs/${log.id}`,log,config)
+      //const data = await res.json();
   
       dispatch({
         type: UPDATE_LOG,
-        payload: data
+        payload: res.data
       });
     } catch (err) {
       dispatch({
@@ -112,12 +114,13 @@ import {
     try {
       setLoading();
   
-      const res = await fetch(`/logs?q=${text}`);
-      const data = await res.json();
+      //const res = await axios.get(`/logs?q=${text}`);
+      //const data = await res.json();
   
       dispatch({
         type: SEARCH_LOGS,
-        payload: data
+        payload:text
+        
       });
     } catch (err) {
       dispatch({
@@ -148,4 +151,20 @@ import {
       type: SET_LOADING
     };
   };
+  
+  export const clearSearch = () => async dispatch => {
+    try {
+      
+      dispatch({
+        type: CLEAR_SEARCH
+        
+      });
+    } catch (err) {
+      dispatch({
+        type: LOGS_ERROR,
+        payload: err.response.statusText
+      });
+    }
+  };
+
   

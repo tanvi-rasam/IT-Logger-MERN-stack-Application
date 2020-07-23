@@ -11,13 +11,14 @@ import {
   export const getTechs = () => async dispatch => {
     try {
       setLoading();
-  
-      const res = await fetch('/techs');
-      const data = await res.json();
+      
+      const res = await axios.get('/techs');
+      //console.log(res.data)
+      //const data = await res.json();
   
       dispatch({
         type: GET_TECHS,
-        payload: data
+        payload: res.data
       });
     } catch (err) {
       dispatch({
@@ -40,12 +41,10 @@ import {
 
       const res= await axios.post('/techs',tech,config)
 
-  
-      const data = await res.json();
-  
+     
       dispatch({
         type: ADD_TECH,
-        payload: data
+        payload: res.data
       });
     } catch (err) {
       dispatch({
@@ -59,9 +58,7 @@ import {
     try {
       setLoading();
   
-      await fetch(`/techs/${id}`, {
-        method: 'DELETE'
-      });
+      await axios.delete(`/techs/${id}`)
   
       dispatch({
         type: DELETE_TECH,

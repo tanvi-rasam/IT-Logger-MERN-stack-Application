@@ -18,8 +18,7 @@ const AddTechModal = ({ addTech }) => {
               };
 
       addTech(newTech);
-
-     
+    
       // Clear Fields
       setfirstName('');
       setlastName('');

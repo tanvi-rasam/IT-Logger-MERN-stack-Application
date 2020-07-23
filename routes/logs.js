@@ -9,6 +9,7 @@ router.get('/',async (req,res)=>{
         const logs=await Log.find().sort({date:-1})
         res.json(logs)
     } catch (error) {
+        console.log(error)
         res.status(500).send('Server Error');
     }
 })
@@ -42,7 +43,7 @@ router.post('/',async (req,res)=>{
         });
 
         await log.save();
-        res.send("User saved");
+        res.json(log);
     } catch (error) {
         console.log(error.message)
         res.status(500).send('Server Error');

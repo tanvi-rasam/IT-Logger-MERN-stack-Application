@@ -11,19 +11,14 @@ const TechListModal=({getTechs, tech:{techs,loading}})=>{
         getTechs()
         //eslint-disable-next-line
     },[])
-
-    
-
-   
-
-    return (
+  return (
         <div id='tech-list-modal' className='modal'>
             <div className='modal-content'>
                 <h4>Technician List</h4>
                 <ul className='collection'>
                 {!loading &&
                     techs !== null &&
-                    techs.map(tech => (<TechItem tech={tech} key={tech.id} />))}
+                    techs.map(tech => (<TechItem tech={tech} key={tech._id} />))}
                 </ul>
             </div>
         </div>

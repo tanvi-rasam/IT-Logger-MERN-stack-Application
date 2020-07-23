@@ -7,14 +7,16 @@ import {
   UPDATE_LOG,
   SEARCH_LOGS,
   SET_CURRENT,
-  CLEAR_CURRENT
+  CLEAR_CURRENT,
+  CLEAR_SEARCH
 } from '../actions/types';
 
 const initialState = {
   logs: null,
   current: null,
   loading: false,
-  error: null
+  error: null,
+  searched:null
 };
 
 export default (state = initialState, action) => {
@@ -34,7 +36,7 @@ export default (state = initialState, action) => {
     case DELETE_LOG:
       return {
         ...state,
-        logs: state.logs.filter(log => log.id !== action.payload),
+        logs: state.logs.filter(log => log._id !== action.payload),
         loading: false
       };
     case UPDATE_LOG:
@@ -47,7 +49,11 @@ export default (state = initialState, action) => {
     case SEARCH_LOGS:
       return {
         ...state,
-        logs: action.payload
+        searched: state.logs.filter(log => {
+          const regex = new RegExp(`${action.payload}`, 'gi');
+          return log.message.match(regex) || log.tech.match(regex);
+        })
+        
       };
     case SET_CURRENT:
       return {
@@ -70,6 +76,11 @@ export default (state = initialState, action) => {
         ...state,
         error: action.payload
       };
+    case CLEAR_SEARCH:
+      return{
+        ...state,
+        searched: null
+      }
     default:
       return state;
   }

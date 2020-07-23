@@ -1,14 +1,27 @@
-import React,{useRef} from 'react';
+import React,{useRef, useEffect} from 'react';
 import {connect} from 'react-redux';
-import {searchLogs} from '../../actions/logActions';
+import {searchLogs,clearSearch} from '../../actions/logActions';
 import PropTypes from 'prop-types';
 
-const SearchBar=({searchLogs})=>{
+const SearchBar=({searchLogs,clearSearch,log:{searched}})=>{
 
   const text = useRef('');
 
+  useEffect(() => {
+    console.log(searched)
+    if (searched === null) {
+      text.current.value = '';
+    }
+  });
+  
+
   const onChange=e=>{
-    searchLogs(text.current.value)
+    if (text.current.value !== '') {
+      searchLogs(e.target.value)
+    } else {
+      clearSearch();
+    }
+    
   };
     return (
         <nav style={{marginBottom:'30px'}} className="blue">
@@ -25,9 +38,13 @@ const SearchBar=({searchLogs})=>{
     )
 };
 
+const mapStateToProp =state=>({
+  log:state.log
+})
+
 SearchBar.propTypes={
   searchLogs: PropTypes.func.isRequired
 }
 
 
-export default connect(null,{searchLogs})(SearchBar);
+export default connect(mapStateToProp,{searchLogs,clearSearch})(SearchBar);

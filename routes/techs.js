@@ -43,7 +43,7 @@ router.post('/',async (req,res)=>{
         });
 
         await tech.save();
-        res.send("Tech saved");
+        res.json(tech);
     } catch (error) {
         console.log(error.message)
         res.status(500).send('Server Error');

@@ -2,6 +2,7 @@ import React, { useEffect, Fragment } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import M from 'materialize-css/dist/js/materialize.min.js';
 import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SearchBar from './components/layouts/SearchBar';
 import Logs from './components/logs/Logs';
 import AddBtn from './components/layouts/AddBtn';
@@ -13,6 +14,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 
+
 const App=()=> {
   useEffect(()=>{
     //Initialize Materialize JS
@@ -20,18 +22,22 @@ const App=()=> {
   })
   return (
     <Provider store={store}>
-      <Fragment>
+      
+        <Fragment>
         <SearchBar />
+
         <div className="container">
-        <AddLogModal />
-        <EditLogModal />
-        <AddTechModal />
-        <TechListModal />
-        <Logs />
-        <AddBtn />
+        
+          <Logs />
+          <AddLogModal/>
+          <EditLogModal />
+          <AddTechModal />
+          <TechListModal />      
+          <AddBtn />
         </div>
         
-    </Fragment>
+        </Fragment>
+     
     </Provider>
     
   );
